@@ -111,23 +111,39 @@
   
   <script>
     function updateStatus(id, status) {
-      const statusElement = document.getElementById('status' + id);
-      const timeElement = document.getElementById('time' + id);
-      const now = new Date();
-      const hours = now.getHours().toString().padStart(2, '0');
-const minutes = now.getMinutes().toString().padStart(2, '0');
+  const statusElement = document.getElementById('status' + id);
+  const timeElement = document.getElementById('time' + id);
 
-const elapsedMinutes = Math.floor((now - new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), 0)) / 60000);
-const formattedTime = `${elapsedMinutes}分前 _ ${hours}:${minutes}`;
+  // 現在の時刻を取得し、タイムスタンプとして保存
+  const now = new Date().getTime();
+  timeElement.setAttribute('data-timestamp', now);
 
-timeElement.textContent = formattedTime;
-      statusElement.textContent = status;
-      timeElement.textContent = formattedTime;
-      
-      // Add animation
-      statusElement.classList.add('animate-pop');
-      setTimeout(() => statusElement.classList.remove('animate-pop'), 500);
+  // ステータス更新
+  statusElement.textContent = status;
+  
+  // アニメーション追加
+  statusElement.classList.add('animate-pop');
+  setTimeout(() => statusElement.classList.remove('animate-pop'), 500);
+
+  // すぐに時間を更新
+  updateTimeDisplay();
+}
+
+// 「何分前」の時間を更新する関数
+function updateTimeDisplay() {
+  const now = new Date().getTime();
+  
+  document.querySelectorAll('[id^="time"]').forEach(timeElement => {
+    const timestamp = timeElement.getAttribute('data-timestamp');
+    if (timestamp) {
+      const elapsedMinutes = Math.floor((now - timestamp) / 60000);
+      timeElement.textContent = elapsedMinutes > 0 ? `${elapsedMinutes}分前` : 'たった今';
     }
+  });
+}
+
+// 1分ごとに時間を更新
+setInterval(updateTimeDisplay, 60000);
   </script>
 </body>
 </html>
