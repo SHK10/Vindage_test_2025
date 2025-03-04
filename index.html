@@ -114,7 +114,7 @@
 const minutes = now.getMinutes().toString().padStart(2, '0');
 
 const elapsedMinutes = Math.floor((now - new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), 0)) / 60000);
-const formattedTime = `${elapsedMinutes}分前 (${hours}:${minutes})`;
+const formattedTime = `${elapsedMinutes}分前 _ ${hours}:${minutes}`;
 
 timeElement.textContent = formattedTime;
       statusElement.textContent = status;
