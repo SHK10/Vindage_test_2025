@@ -110,9 +110,13 @@
       const statusElement = document.getElementById('status' + id);
       const timeElement = document.getElementById('time' + id);
       const now = new Date();
-      const formattedTime = now.getHours().toString().padStart(2, '0') + ':' +
-                            now.getMinutes().toString().padStart(2, '0') + ':' +
-                            now.getSeconds().toString().padStart(2, '0');
+      const hours = now.getHours().toString().padStart(2, '0');
+const minutes = now.getMinutes().toString().padStart(2, '0');
+
+const elapsedMinutes = Math.floor((now - new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), 0)) / 60000);
+const formattedTime = `${elapsedMinutes}分前・(${hours}:${minutes})`;
+
+timeElement.textContent = formattedTime;
       statusElement.textContent = status;
       timeElement.textContent = formattedTime;
       
